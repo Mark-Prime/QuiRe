@@ -1,0 +1,153 @@
+/* COLORS */
+/* BG: #F0F8FF */
+/* HL: #22d1ee */
+/* BTN: #3d5af1 */
+/* TEXT: #0e153a */
+
+body {
+    background-color: #F0F8FF;
+    color: #0e153a;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    background-color: #3d5af1;
+    padding: 10px 20px;
+    font-size: xx-large;
+    color: #F0F8FF;
+    box-shadow: 1px 2px 3px 0 rgba(0, 0, 0, 0.2), -1px 2px 3px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: calc(100% - 40px);
+    z-index: 1;
+}
+
+main {
+    padding: 70px 0;
+    width: 80%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.edit-bar {
+    padding: 70px 20px;
+    height: 100%;
+    width: calc(20% - 40px);
+    box-shadow: -1px 3px 3px 0 rgba(0, 0, 0, 0.2);
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: #FFFFFF;
+    justify-self: stretch;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2%;
+}
+
+.card {
+    padding: 10px;
+    box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2), -1px 1px 3px 0 rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 98%;
+    margin: auto;
+    background-color: white;
+    align-self: stretch;
+}
+
+.card--header {
+    padding: 5px 10px;
+    font-size: large;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card--hotkey {
+    font-size: small;
+    opacity: 0.5;
+}
+
+.card--content {
+    height: 70%;
+    overflow: auto;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card--content > #text {
+    flex-shrink: 1;
+}
+
+.card--footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.folder--content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.folder > .btns {
+    width: 100%;
+}
+
+main > .btns {
+    width: 100%;
+}
+
+.edit-bar > .btns {
+    width: 100%;
+}
+
+.btns {
+    width: fit-content;
+    flex-grow: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
+.btn {
+    color: #3d5af1 ;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: transparent;
+    float: right;
+}
+
+.btn--del {
+    color: red;
+}
+
+.btn--add {
+    color: #22d1ee ;
+}
+
+.edit-bar--title {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.edit-bar--content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: fit-content;
+}
+
+.label {
+    font-size: large;
+}

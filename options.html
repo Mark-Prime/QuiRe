@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>QuiRe Options</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="options.css">
+        <script src="options.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="header">QuiRe</div>
+        <main>
+            <div class="cards" id="cards">
+                <div class="card">
+                    <div class="card--header"><div class="card--title">Header</div><div class="card--hotkey">Hotkey: Alt+1</div></div>
+                    <div class="card--content">hello<div class="btns">
+                        <button class="btn">Edit</button>
+                        <button class="btn btn--del">Delete</button>
+                    </div></div>
+                </div>
+                <div class="card">
+                    <div class="card--header">Header</div>
+                    <div class="card--content">hello<div class="btns">
+                        <button class="btn">Edit</button>
+                        <button class="btn btn--del">Delete</button>
+                    </div></div>
+                </div>
+                <div class="card">
+                    <div class="card--header">Header</div>
+                    <div class="card--content">hello<div class="btns">
+                        <button class="btn">Edit</button>
+                        <button class="btn btn--del">Delete</button>
+                    </div></div>
+                </div>
+                <div class="card folder">
+                    <div class="card--header">Folder</div>
+                    <div class="folder--content">
+                        <div class="card">
+                            <div class="card--header">Header</div>
+                            <div class="card--content">hello<div class="btns">
+                                <button class="btn">Edit</button>
+                                <button class="btn btn--del">Delete</button>
+                            </div></div>
+                        </div>
+                        <div class="card">
+                            <div class="card--header">Header</div>
+                            <div class="card--content">hello<div class="btns">
+                                <button class="btn">Edit</button>
+                                <button class="btn btn--del">Delete</button>
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="btns" id="add-items">
+                <button class="btn btn--add">Add Folder</button>
+                <button class="btn btn--add">Add Item</button>
+            </div>
+        </main>
+        <div class="edit-bar" id="edit-bar">
+        </div>
+    </body>
+</html>
