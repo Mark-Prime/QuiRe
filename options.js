@@ -1,7 +1,7 @@
 // Options page
 
-function createElement(innerHTML, className) {
-    let element = document.createElement('div');
+function createElement(innerHTML, className, type='div') {
+    let element = document.createElement(type);
     element.innerHTML = innerHTML
 
     if (className) {
@@ -41,6 +41,7 @@ function onEdit(isFolder, index, inFolder) {
 
     let saveBtn = document.getElementById('save-btn')
     saveBtn.addEventListener('click', () => {
+        saveBtn.innerHTML = 'SAVING...';
         chrome.storage.sync.get(['quire'], function(storage) {
             let quire = storage.quire
 
@@ -64,7 +65,7 @@ function onEdit(isFolder, index, inFolder) {
     })
 }
 
-function createFooter(isFolder, index, inFolder) {
+function createFooter(isFolder, index, inFolder, folder) {
     let btns = createElement('', 'btns');
     let editBtn = document.createElement('button');
     editBtn.innerHTML = 'Edit';
@@ -121,16 +122,33 @@ function createFooter(isFolder, index, inFolder) {
                 })
             })
         })
+        let sortBtn = document.createElement('button');
 
-        btns.appendChild(addBtn);
+        sortBtn.innerHTML = 'Sort';
+        sortBtn.className = 'btn';
+    
+        sortBtn.addEventListener('click', () => {
+            if (folder.classList.contains('slist')) {
+                unslist(folder);
+            } else {
+                slist(folder);
+            }
+        })
+
+        btns.appendChild(sortBtn);
     }
 
     return btns
 }
 
-function createCard(element, index, inFolder) {
-    let card = createElement('', 'card')
-    card.id = element.id
+function createCard(element, index, inFolder, folderLabel) {
+    let card = createElement('', 'card', 'li');
+    card.id = `card-${index}`;
+
+    if (inFolder) {
+        card.id += `-${inFolder}`;
+        card.dataset.folder = folderLabel;
+    }
 
     if (inFolder || index > 3) {
         card.appendChild(createElement(element.label, 'card--header'));
@@ -146,20 +164,23 @@ function createCard(element, index, inFolder) {
     content.appendChild(createFooter(false, index, inFolder));
     card.appendChild(content);
 
+    card.dataset.label = element.label;
+    card.dataset.text = element.text;
+
     return card
 }
 
 function createFolder(element, index) {
     let folder = createElement('', 'card folder')
-    folder.appendChild(createElement(element.label, 'card--header'));
+    folder.appendChild(createElement(element.label, 'card--header', 'ul'));
     let folderContent = createElement('', 'folder--content');
 
     element.contents.forEach((content, itemindex) => {
-        folderContent.appendChild(createCard(content, itemindex, index))
+        folderContent.appendChild(createCard(content, itemindex, index, element.label))
     })
 
     folder.appendChild(folderContent);
-    folder.appendChild(createFooter(true, index));
+    folder.appendChild(createFooter(true, index, undefined, folderContent));
 
     return folder
 }
@@ -171,6 +192,7 @@ function isFolder(element) {
 function buildOptionsPage() {
     chrome.storage.sync.get(['quire'], function(storage) {
         let quire = storage.quire
+        console.log(quire)
 
         let cards = document.getElementById('cards')
         cards.innerHTML = ''
@@ -182,6 +204,24 @@ function buildOptionsPage() {
                 cards.appendChild(createCard(element, index, undefined))
             }
         });
+
+        // let exportBtn = document.createElement('button');
+
+        // exportBtn.innerHTML = 'Export JSON';
+        // exportBtn.className = 'btn';
+
+        // exportBtn.addEventListener('click', () => {
+        //     console.log('quire', JSON.stringify(quire))
+        // })
+
+        // let importBtn = document.createElement('button');
+
+        // importBtn.innerHTML = 'Import JSON';
+        // importBtn.className = 'btn';
+
+        // exportBtn.addEventListener('click', () => {
+        //     console.log('placeholder text ')
+        // })
 
         let addFolderBtn = document.createElement('button');
         let addItemBtn = document.createElement('button');
@@ -240,9 +280,127 @@ function buildOptionsPage() {
         let btns = document.getElementById('add-items')
         btns.innerHTML = ''
 
+        let sortBtn = document.createElement('button');
+
+        sortBtn.innerHTML = 'Sort';
+        sortBtn.className = 'btn';
+    
+        sortBtn.addEventListener('click', () => {
+            if (cards.classList.contains('slist')) {
+                sortBtn.innerHTML = 'SAVING...';
+                unslist(cards);
+            } else {
+                slist(cards);
+            }
+        })
+
         btns.appendChild(addFolderBtn);
         btns.appendChild(addItemBtn);
+        // btns.appendChild(importBtn);
+        // btns.appendChild(exportBtn);
+        btns.appendChild(sortBtn);
     })
 }
+
+function isSameElement(element, otherElement) {
+    return element.label === otherElement.label && element.text === otherElement.text
+}
+
+function unslist(target) {
+    chrome.storage.sync.get(['quire'], function(storage) {
+        let quire = storage.quire
+
+        let items = target.getElementsByTagName("li");
+
+        for (let index = 0; index < items.length; index++) {
+            let item = items[index];
+            // item.draggable = false;
+            id = item.id.split('-')
+
+            if (id[2]) {
+                if (quire[id[2]] && quire[id[2]].type === 'folder') {
+                    if (quire[id[2]].contents[index] && !isSameElement(quire[id[2]].contents[index], item.dataset)) {
+                        quire[id[2]].contents[index] = {
+                            label: item.dataset.label,
+                            text: item.dataset.text,
+                            type: "text",
+                        }
+                    }
+                }
+            } else {
+                if (!isSameElement(quire[index], item.dataset)) {
+                    quire[index] = {
+                        label: item.dataset.label,
+                        text: item.dataset.text,
+                        type: "text",
+                    }
+                }
+            }
+        }
+
+        chrome.storage.sync.set({'quire': quire}, function() {
+            chrome.runtime.sendMessage({message: "RELOAD"}, function() {
+                buildOptionsPage();
+                target.classList.remove("slist");
+            });
+        })
+    })
+}
+
+function slist(target) {
+    // (A) SET CSS + GET ALL LIST ITEMS
+    target.classList.add("slist");
+    let items = target.getElementsByTagName("li"), current = null;
+  
+    // (B) MAKE ITEMS DRAGGABLE + SORTABLE
+    for (let i of items) {
+      // (B1) ATTACH DRAGGABLE
+      i.draggable = true;
+      
+      // (B2) DRAG START - YELLOW HIGHLIGHT DROPZONES
+      i.ondragstart = (ev) => {
+        current = i;
+        for (let it of items) {
+          if (it != current) { it.classList.add("hint"); }
+        }
+      };
+      
+      // (B3) DRAG ENTER - RED HIGHLIGHT DROPZONE
+      i.ondragenter = (ev) => {
+        if (i != current) { i.classList.add("active"); }
+      };
+  
+      // (B4) DRAG LEAVE - REMOVE RED HIGHLIGHT
+      i.ondragleave = () => {
+        i.classList.remove("active");
+      };
+  
+      // (B5) DRAG END - REMOVE ALL HIGHLIGHTS
+      i.ondragend = () => { for (let it of items) {
+          it.classList.remove("hint");
+          it.classList.remove("active");
+      }};
+   
+      // (B6) DRAG OVER - PREVENT THE DEFAULT "DROP", SO WE CAN DO OUR OWN
+      i.ondragover = (evt) => { evt.preventDefault(); };
+   
+      // (B7) ON DROP - DO SOMETHING
+      i.ondrop = (evt) => {
+        evt.preventDefault();
+        if (i != current) {
+          let currentpos = 0, droppedpos = 0;
+          for (let it=0; it<items.length; it++) {
+            if (current == items[it]) { currentpos = it; }
+            if (i == items[it]) { droppedpos = it; }
+          }
+          if (currentpos < droppedpos) {
+            i.parentNode.insertBefore(current, i.nextSibling);
+          } else {
+            i.parentNode.insertBefore(current, i);
+          }
+        }
+      };
+    }
+  }
 
 buildOptionsPage()

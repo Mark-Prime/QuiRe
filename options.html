@@ -19,48 +19,48 @@
         <![endif]-->
         <div class="header">QuiRe</div>
         <main>
-            <div class="cards" id="cards">
-                <div class="card">
+            <ul class="cards" id="cards">
+                <li class="card" draggable>
                     <div class="card--header"><div class="card--title">Header</div><div class="card--hotkey">Hotkey: Alt+1</div></div>
-                    <div class="card--content">hello<div class="btns">
+                    <div class="card--content">hello 1<div class="btns">
                         <button class="btn">Edit</button>
                         <button class="btn btn--del">Delete</button>
                     </div></div>
-                </div>
-                <div class="card">
+                </li>
+                <li class="card" draggable>
                     <div class="card--header">Header</div>
-                    <div class="card--content">hello<div class="btns">
+                    <div class="card--content">hello 2<div class="btns">
                         <button class="btn">Edit</button>
                         <button class="btn btn--del">Delete</button>
                     </div></div>
-                </div>
-                <div class="card">
+                </li>
+                <li class="card" draggable>
                     <div class="card--header">Header</div>
-                    <div class="card--content">hello<div class="btns">
+                    <div class="card--content">hello 3<div class="btns">
                         <button class="btn">Edit</button>
                         <button class="btn btn--del">Delete</button>
                     </div></div>
                 </div>
-                <div class="card folder">
+                <li class="card folder">
                     <div class="card--header">Folder</div>
-                    <div class="folder--content">
-                        <div class="card">
+                    <ul class="folder--content">
+                        <li class="card" draggable>
                             <div class="card--header">Header</div>
-                            <div class="card--content">hello<div class="btns">
+                            <div class="card--content">hello 1<div class="btns">
                                 <button class="btn">Edit</button>
                                 <button class="btn btn--del">Delete</button>
                             </div></div>
-                        </div>
-                        <div class="card">
+                        </li>
+                        <li class="card" draggable>
                             <div class="card--header">Header</div>
-                            <div class="card--content">hello<div class="btns">
+                            <div class="card--content">hello 2<div class="btns">
                                 <button class="btn">Edit</button>
                                 <button class="btn btn--del">Delete</button>
                             </div></div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
+                        </li>
+                    </ul>
+                </li>
+            </ul> 
             <div class="btns" id="add-items">
                 <button class="btn btn--add">Add Folder</button>
                 <button class="btn btn--add">Add Item</button>
