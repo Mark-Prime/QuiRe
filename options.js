@@ -205,23 +205,47 @@ function buildOptionsPage() {
             }
         });
 
-        // let exportBtn = document.createElement('button');
+        let exportBtn = document.createElement('button');
 
-        // exportBtn.innerHTML = 'Export JSON';
-        // exportBtn.className = 'btn';
+        exportBtn.innerHTML = 'Export JSON';
+        exportBtn.className = 'btn';
 
-        // exportBtn.addEventListener('click', () => {
-        //     console.log('quire', JSON.stringify(quire))
-        // })
+        exportBtn.addEventListener('click', () => {
+            let editBar = document.getElementById('edit-bar')
+            editBar.innerHTML = JSON.stringify(quire);
+        })
 
-        // let importBtn = document.createElement('button');
+        let importBtn = document.createElement('button');
 
-        // importBtn.innerHTML = 'Import JSON';
-        // importBtn.className = 'btn';
+        importBtn.innerHTML = 'Import JSON';
+        importBtn.className = 'btn';
 
-        // exportBtn.addEventListener('click', () => {
-        //     console.log('placeholder text ')
-        // })
+        importBtn.addEventListener('click', () => {
+            let editBar = document.getElementById('edit-bar')
+            editBar.innerHTML = `<label for="edit-bar--content" class="label">Import</label>
+                <textarea rows="10" class="edit-bar--content" id="edit-bar--content"></textarea>
+                <div class="btns">
+                    <button class="btn btn--del" id="cancel-btn">Cancel</button>
+                    <button class="btn" id="save-btn">Save</button>
+                </div>`
+
+            let saveBtn = document.getElementById('save-btn');
+            let cancelBtn = document.getElementById('cancel-btn');
+
+            saveBtn.addEventListener('click', () => {
+                let quire = JSON.parse(document.getElementById('edit-bar--content').value)
+
+                chrome.storage.sync.set({'quire': quire}, function() {
+                    chrome.runtime.sendMessage({message: "RELOAD"}, function() {
+                        buildOptionsPage();
+                        editBar.innerHTML = '';
+                    });
+                });
+            });
+            cancelBtn.addEventListener('click', () => {
+                editBar.innerHTML = '';
+            })
+        })
 
         let addFolderBtn = document.createElement('button');
         let addItemBtn = document.createElement('button');
@@ -296,8 +320,8 @@ function buildOptionsPage() {
 
         btns.appendChild(addFolderBtn);
         btns.appendChild(addItemBtn);
-        // btns.appendChild(importBtn);
-        // btns.appendChild(exportBtn);
+        btns.appendChild(importBtn);
+        btns.appendChild(exportBtn);
         btns.appendChild(sortBtn);
     })
 }
