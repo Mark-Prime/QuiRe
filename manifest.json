@@ -16,28 +16,28 @@
                 "default": "Shift+Alt+1",
                 "mac": "Shift+Alt+1"
             },
-            "description": "Use the First Hotkey"
+            "description": "QuiRe: Use the First Hotkey"
         },
         "Hotkey2": {
             "suggested_key": {
                 "default": "Shift+Alt+2",
                 "mac": "Shift+Alt+2"
             },
-            "description": "Use the Second Hotkey"
+            "description": "QuiRe: Use the Second Hotkey"
         },
         "Hotkey3": {
             "suggested_key": {
                 "default": "Shift+Alt+3",
                 "mac": "Shift+Alt+3"
             },
-            "description": "Use the Third Hotkey"
+            "description": "QuiRe: Use the Third Hotkey"
         },
         "Hotkey4": {
             "suggested_key": {
                 "default": "Shift+Alt+4",
                 "mac": "Shift+Alt+4"
             },
-            "description": "Use the Forth Hotkey"
+            "description": "QuiRe: Use the Forth Hotkey"
         }
     },
     "permissions": [
