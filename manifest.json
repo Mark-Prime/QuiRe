@@ -2,7 +2,7 @@
     "name": "QuiRe",
     "description": "Quick Replies made easy",
     "options_page": "options.html",
-    "version": "1.5",
+    "version": "1.5.1",
     "icons": { "16": "QuiRe16px.png",
         "48": "QuiRe48px.png",
        "128": "QuiRe128px.png" },

@@ -136,6 +136,7 @@ function createFooter(isFolder, index, inFolder, folder) {
         })
 
         btns.appendChild(sortBtn);
+        btns.appendChild(addBtn);
     }
 
     return btns
@@ -212,7 +213,7 @@ function buildOptionsPage() {
 
         exportBtn.addEventListener('click', () => {
             let editBar = document.getElementById('edit-bar')
-            editBar.innerHTML = JSON.stringify(quire);
+            editBar.innerHTML = `<textarea class="export-textarea">${JSON.stringify(quire)}</textarea>`;
         })
 
         let importBtn = document.createElement('button');
