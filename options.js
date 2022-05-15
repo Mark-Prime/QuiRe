@@ -215,7 +215,7 @@ function createFooter(isFolder, index, inFolder, folder) {
     editBtn.innerHTML       = 'Edit';
     editBtn.className       = 'btn';
 
-    addClickListener(delBtn, deleteItem, [index, isFolder])
+    addClickListener(delBtn, deleteItem, [index, inFolder])
     addClickListener(editBtn, onEdit, [isFolder, index, inFolder])
 
     btns.appendChild(delBtn);
