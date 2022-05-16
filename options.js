@@ -1,4 +1,10 @@
 // Options page
+const isSameElement = (element, otherElement) => (element.label === otherElement.label && element.text === otherElement.text)
+
+const addClickListener = (elem, func, args = []) => (elem.addEventListener('click', () => {func(...args)}))
+
+const isFolder = (element) => (element.contents)
+
 function createElement(innerHTML, className, type='div') {
     let element = document.createElement(type);
     element.innerHTML = innerHTML
@@ -8,10 +14,6 @@ function createElement(innerHTML, className, type='div') {
     }
 
     return element;
-}
-
-function addClickListener(elem, func, args = []) {
-    elem.addEventListener('click', () => {func(...args)})
 }
 
 function addFolder(quire) {
@@ -324,14 +326,6 @@ function buildBtns(quire) {
     btns.appendChild(sortBtn);
 }
 
-function isFolder(element) {
-    return element.contents
-}
-
-function isSameElement(element, otherElement) {
-    return element.label === otherElement.label && element.text === otherElement.text
-}
-
 function unslist(target) {
     chrome.storage.sync.get(['quire'], function(storage) {
         let quire = storage.quire
@@ -451,4 +445,6 @@ function buildOptionsPage() {
     })
 }
 
-buildOptionsPage()
+window.onload = () => {
+    buildOptionsPage()
+};
